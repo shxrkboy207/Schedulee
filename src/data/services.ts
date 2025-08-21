@@ -1,7 +1,7 @@
 export interface Service {
   id: number;
   title: string;
-  category: string;
+  category: string[];
   provider: string;
   price: number;
   rating: number;
@@ -13,7 +13,7 @@ export const services: Service[] = [
   {
     id: 1,
     title: "Criação de Logo Profissional",
-    category: "Design",
+    category: ["Design"],
     provider: "Ana Silva",
     price: 299,
     rating: 4.9,
@@ -23,7 +23,7 @@ export const services: Service[] = [
   {
     id: 2,
     title: "Desenvolvimento de Site Responsivo",
-    category: "Tecnologia",
+    category: ["Tecnologia"],
     provider: "Carlos Santos",
     price: 1200,
     rating: 4.8,
@@ -33,7 +33,7 @@ export const services: Service[] = [
   {
     id: 3,
     title: "Campanha Google Ads Completa",
-    category: "Marketing",
+    category: ["Marketing"],
     provider: "Maria Oliveira",
     price: 800,
     rating: 4.7,

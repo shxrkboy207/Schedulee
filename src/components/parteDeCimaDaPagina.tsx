@@ -1,20 +1,30 @@
 import React from "react";
 import { Search as SearchIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface ParteDeCimaDaPaginaProps {
   activeTab: "services" | "how-it-works";
-  setActiveTab: (tab: "services" | "how-it-works") => void;
+  setActiveTab?: (tab: "services" | "how-it-works") => void;
+  onLoginClick?: () => void;
+  onCadastroClick?: () => void;
+  isLoginActive?: boolean;
+  onVoltarParaServicos?: () => void;
 }
 
 const ParteDeCimaDaPagina: React.FC<ParteDeCimaDaPaginaProps> = ({
   activeTab,
   setActiveTab,
+  onLoginClick,
+  onCadastroClick,
+  isLoginActive,
+  onVoltarParaServicos,
 }) => {
+  const navigate = useNavigate();
+
   return (
     <header className="bg-white shadow-sm border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo + Nome */}
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gradient-to-r from-orange-600 to-orange-700 rounded-full flex items-center justify-center">
@@ -23,11 +33,9 @@ const ParteDeCimaDaPagina: React.FC<ParteDeCimaDaPaginaProps> = ({
               <span className="text-xl font-bold text-gray-900">Scheedule</span>
             </div>
           </div>
-
-          {/* Menu de navegação */}
           <nav className="hidden md:flex space-x-8">
             <button
-              onClick={() => setActiveTab("services")}
+              onClick={() => navigate("/")}
               className={`${
                 activeTab === "services"
                   ? "text-orange-600"
@@ -37,7 +45,7 @@ const ParteDeCimaDaPagina: React.FC<ParteDeCimaDaPaginaProps> = ({
               Página Inicial
             </button>
             <button
-              onClick={() => setActiveTab("how-it-works")}
+              onClick={() => navigate("/", { state: { tab: "how-it-works" } })}
               className={`${
                 activeTab === "how-it-works"
                   ? "text-orange-600"
@@ -46,19 +54,20 @@ const ParteDeCimaDaPagina: React.FC<ParteDeCimaDaPaginaProps> = ({
             >
               Como Funciona
             </button>
-            <button
-              className="text-gray-700 hover:text-orange-600 font-medium transition-colors"
-            >
-              Cadastrar Serviço
-            </button>
           </nav>
-
-          {/* Botões de ação */}
           <div className="flex items-center space-x-4">
-            <button className="text-gray-700 hover:text-orange-600 font-medium transition-colors">
+            <button
+              className={`text-gray-700 hover:text-orange-600 font-medium transition-colors ${
+                isLoginActive ? "font-bold underline" : ""
+              }`}
+              onClick={onLoginClick}
+            >
               Entrar
             </button>
-            <button className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors font-medium">
+            <button
+              className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors font-medium"
+              onClick={onCadastroClick}
+            >
               Cadastrar
             </button>
           </div>

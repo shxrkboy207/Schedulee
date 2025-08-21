@@ -1,7 +1,10 @@
 import React from 'react';
 import { Search as SearchIcon } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const FinalDaPagina: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <footer className="bg-gray-900 text-white py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -32,30 +35,79 @@ const FinalDaPagina: React.FC = () => {
           <div>
             <h3 className="font-semibold mb-6">Para Profissionais</h3>
             <ul className="space-y-3 text-gray-400">
-              <li><a href="#" className="hover:text-white transition-colors">Como Começar</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Cadastrar Serviço</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Dicas de Sucesso</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Aumentar Vendas</a></li>
+              <li>
+                <button
+                  className="hover:text-white transition-colors"
+                  onClick={() => navigate("/dicas?scrollTo=profissionais")}
+                >
+                  Como Começar
+                </button>
+              </li>
+              <li>
+                <button
+                  className="hover:text-white transition-colors"
+                  onClick={() => navigate("/cadastro")}
+                >
+                  Cadastrar Serviço
+                </button>
+              </li>
+              <li>
+                <button
+                  className="hover:text-white transition-colors"
+                  onClick={() => navigate("/dicas?scrollTo=dicas")}
+                >
+                  Dicas de Sucesso
+                </button>
+              </li>
+              <li>
+                <button
+                  className="hover:text-white transition-colors"
+                  onClick={() => navigate("/dicas?scrollTo=vendas")}
+                >
+                  Aumentar Vendas
+                </button>
+              </li>
             </ul>
           </div>
           
           <div>
             <h3 className="font-semibold mb-6">Para Clientes</h3>
             <ul className="space-y-3 text-gray-400">
-              <li><a href="#" className="hover:text-white transition-colors">Como Buscar</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Encontrar Profissionais</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Avaliar Serviços</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Dicas de Sucesso</a></li>
+              <li>
+                <span className="hover:text-white transition-colors cursor-pointer">Como Buscar</span>
+              </li>
+              <li>
+                <span className="hover:text-white transition-colors cursor-pointer">Encontrar Profissionais</span>
+              </li>
+              <li>
+                <span className="hover:text-white transition-colors cursor-pointer">Avaliar Serviços</span>
+              </li>
+              <li>
+                <button
+                  className="hover:text-white transition-colors"
+                  onClick={() => navigate("/dicas?scrollTo=dicas")}
+                >
+                  Dicas de Sucesso
+                </button>
+              </li>
             </ul>
           </div>
           
           <div>
             <h3 className="font-semibold mb-6">Suporte</h3>
             <ul className="space-y-3 text-gray-400">
-              <li><a href="#" className="hover:text-white transition-colors">Centro de Ajuda</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Contato</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Termos de Uso</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Privacidade</a></li>
+              <li>
+                <span className="hover:text-white transition-colors cursor-pointer">Centro de Ajuda</span>
+              </li>
+              <li>
+                <span className="hover:text-white transition-colors cursor-pointer">Contato</span>
+              </li>
+              <li>
+                <span className="hover:text-white transition-colors cursor-pointer">Termos de Uso</span>
+              </li>
+              <li>
+                <span className="hover:text-white transition-colors cursor-pointer">Privacidade</span>
+              </li>
             </ul>
           </div>
         </div>

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Star } from 'lucide-react';
 
-interface Service {
+interface ServiceProps {
   id: number;
   title: string;
-  category: string;
+  category: string[];
   provider: string;
   price: number;
   rating: number;
@@ -13,7 +13,7 @@ interface Service {
 }
 
 interface IconesDeServicoPropriedades {
-  service: Service;
+  service: ServiceProps;
 }
 
 const IconesDeServico: React.FC<IconesDeServicoPropriedades> = ({ service }) => {

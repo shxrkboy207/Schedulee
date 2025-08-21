@@ -1,22 +1,12 @@
 import React from 'react';
 import IconesDeServico from './IconesDeServiço';
+import { services } from '../data/services';
 
-interface Service {
-  id: number;
-  title: string;
-  category: string;
-  provider: string;
-  price: number;
-  rating: number;
-  reviews: number;
-  image: string;
+interface ServicesProps {
+  services: typeof services;
 }
 
-interface ServicesGridProps {
-  services: Service[];
-}
-
-const ServicesGrid: React.FC<ServicesGridProps> = ({ services }) => {
+const ServicesGrid: React.FC<ServicesProps> = ({ services }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {services.map((service) => (
