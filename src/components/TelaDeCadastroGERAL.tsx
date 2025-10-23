@@ -1,16 +1,26 @@
 import React, { useState } from "react";
 import InputMask from "react-input-mask";
+import api from "../data/services/api";
 
 interface TelaDeCadastroGERALProps {
   onVoltar?: () => void;
 }
 
 const TelaDeCadastroGERAL: React.FC<TelaDeCadastroGERALProps> = ({ onVoltar }) => {
-  const [cpf, setCpf] = useState("");
-  const [erroCpf, setErroCpf] = useState("");
-  const [telefone, setTelefone] = useState("");
+  const [form, setForm] = useState({
+    nome: "",
+    email: "",
+    senha: "",
+    telefone: "",
+    endereco: "",
+    cpf: "",
+    fotoPerfil: ""
+  });
 
-  
+  const [erroCpf, setErroCpf] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [codigoPais, setCodigoPais] = useState("+55");
+
   const validarCPF = (cpf: string): boolean => {
     cpf = cpf.replace(/\D/g, "");
 
@@ -20,7 +30,6 @@ const TelaDeCadastroGERAL: React.FC<TelaDeCadastroGERALProps> = ({ onVoltar }) =
     let soma = 0;
     let resto;
 
-    
     for (let i = 1; i <= 9; i++) {
       soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
     }
@@ -28,7 +37,6 @@ const TelaDeCadastroGERAL: React.FC<TelaDeCadastroGERALProps> = ({ onVoltar }) =
     if (resto === 10 || resto === 11) resto = 0;
     if (resto !== parseInt(cpf.substring(9, 10))) return false;
 
-    
     soma = 0;
     for (let i = 1; i <= 10; i++) {
       soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
@@ -40,23 +48,47 @@ const TelaDeCadastroGERAL: React.FC<TelaDeCadastroGERALProps> = ({ onVoltar }) =
     return true;
   };
 
-  
-  const handleCpfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const valor = e.target.value;
-    setCpf(valor);
-    setErroCpf("");
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+    if (name === 'cpf') {
+      setErroCpf("");
+    }
   };
 
-  
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validação dos campos obrigatórios
+    if (!form.nome || !form.email || !form.senha || !form.cpf) {
+      alert("Por favor, preencha todos os campos obrigatórios");
+      return;
+    }
 
-    if (!validarCPF(cpf)) {
+    if (!validarCPF(form.cpf)) {
       setErroCpf("CPF inválido. Verifique o número digitado.");
       return;
     }
 
-    alert("Formulário enviado com sucesso!");
+    setLoading(true);
+
+    try {
+      const dadosParaEnviar = {
+        ...form,
+        telefone: `${codigoPais}${form.telefone.replace(/\D/g, "")}`,
+      };
+
+      const response = await api.post("/usuarios/cadastro", dadosParaEnviar);
+      alert(`Usuário ${response.data.nome} cadastrado com sucesso!`);
+      console.log(response.data);
+      if (onVoltar) onVoltar();
+    } catch (error: any) {
+      console.error(error);
+      const mensagem = error.response?.data?.message || "Erro ao cadastrar usuário.";
+      alert(mensagem);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -67,11 +99,21 @@ const TelaDeCadastroGERAL: React.FC<TelaDeCadastroGERALProps> = ({ onVoltar }) =
         </h2>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
-          <input className="w-full px-3 py-2 border rounded-lg" placeholder="NOME" />
+          <input 
+            name="nome"
+            value={form.nome}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded-lg" 
+            placeholder="NOME"
+            required 
+          />
 
-          
           <div className="flex gap-2">
-            <select className="px-3 py-2 border rounded-lg">
+            <select 
+              value={codigoPais}
+              onChange={(e) => setCodigoPais(e.target.value)}
+              className="px-3 py-2 border rounded-lg"
+            >
               <option value="+55">🇧🇷 +55</option>
               <option value="+1">🇺🇸 +1</option>
               <option value="+44">🇬🇧 +44</option>
@@ -79,12 +121,13 @@ const TelaDeCadastroGERAL: React.FC<TelaDeCadastroGERALProps> = ({ onVoltar }) =
 
             <InputMask
               mask="(99) 99999-9999"
-              value={telefone}
-              onChange={(e) => setTelefone(e.target.value)}
+              value={form.telefone}
+              onChange={handleChange}
             >
               {(inputProps: any) => (
                 <input
                   {...inputProps}
+                  name="telefone"
                   type="tel"
                   className="flex-1 px-3 py-2 border rounded-lg"
                   placeholder="Número"
@@ -94,30 +137,49 @@ const TelaDeCadastroGERAL: React.FC<TelaDeCadastroGERALProps> = ({ onVoltar }) =
           </div>
 
           <input
+            name="endereco"
+            value={form.endereco}
+            onChange={handleChange}
             className="w-full px-3 py-2 border rounded-lg"
             placeholder="ENDEREÇO"
           />
+          
           <input
+            name="email"
+            value={form.email}
+            onChange={handleChange}
             className="w-full px-3 py-2 border rounded-lg"
             placeholder="EMAIL"
             type="email"
+            required
           />
 
-          
+          <input
+            name="senha"
+            value={form.senha}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded-lg"
+            placeholder="SENHA"
+            type="password"
+            required
+          />
+
           <div>
             <InputMask
               mask="999.999.999-99"
-              value={cpf}
-              onChange={handleCpfChange}
+              value={form.cpf}
+              onChange={handleChange}
             >
               {(inputProps: any) => (
                 <input
                   {...inputProps}
+                  name="cpf"
                   type="text"
                   className={`w-full px-3 py-2 border rounded-lg ${
                     erroCpf ? "border-red-500" : ""
                   }`}
                   placeholder="CPF"
+                  required
                 />
               )}
             </InputMask>
@@ -127,8 +189,14 @@ const TelaDeCadastroGERAL: React.FC<TelaDeCadastroGERALProps> = ({ onVoltar }) =
             )}
           </div>
 
-          <button className="w-full bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-700 font-medium">
-            Cadastrar
+          <button 
+            type="submit"
+            disabled={loading}
+            className={`w-full bg-orange-600 text-white py-2 rounded-lg 
+              ${loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-orange-700'} 
+              font-medium`}
+          >
+            {loading ? 'Cadastrando...' : 'Cadastrar'}
           </button>
         </form>
 

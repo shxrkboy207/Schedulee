@@ -8,7 +8,7 @@ import Cabecalho from "./cabecalho";
 import FinalDaPagina from "./finalDaPagina";
 import TelaDeLogin from "./TelaDeLogin";
 import TelaDeCadastroGERAL from "./TelaDeCadastroGERAL";
-import { services } from "../data/services";
+import { services } from "../data/services.ts";
 
 const PaginaInicial: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"services" | "how-it-works">("services");
