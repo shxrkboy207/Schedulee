@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import ParteDeCimaDaPagina from "./parteDeCimaDaPagina";
 import SecaoDeServicos from "./SecaoDeServicos";
 import TabNavigation from "./TabNavigation";
@@ -8,7 +8,7 @@ import Cabecalho from "./cabecalho";
 import FinalDaPagina from "./finalDaPagina";
 import TelaDeLogin from "./TelaDeLogin";
 import TelaDeCadastroGERAL from "./TelaDeCadastroGERAL";
-import { services } from "../data/services.ts";
+import { services } from "../data/services";
 
 const PaginaInicial: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"services" | "how-it-works">("services");
@@ -32,9 +32,13 @@ const PaginaInicial: React.FC = () => {
     setActiveTab("services");
   };
 
+  const filteredServices = useMemo(() => {
+    if (!selectedCategory || selectedCategory === "Todos") return services;
+    return services.filter((s: any) => String(s.category) === String(selectedCategory));
+  }, [selectedCategory]);
+
   return (
     <div className="min-h-screen bg-gray-50">
-      
       <div className="sticky top-0 z-50">
         <ParteDeCimaDaPagina
           activeTab={activeTab}
@@ -75,7 +79,7 @@ const PaginaInicial: React.FC = () => {
                 setSelectedCategory={setSelectedCategory}
               />
               {activeTab === "services" && (
-                <ServicesGrid services={services} category={selectedCategory} />
+                <ServicesGrid services={filteredServices} />
               )}
               {activeTab === "how-it-works" && <ComoFunciona />}
             </div>

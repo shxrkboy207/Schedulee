@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import PaginaInicial from "./components/paginaInicial";
 import PaginaDeDicas from "./components/PaginaDeDicas";
 import TelaDeCadastroGERAL from "./components/TelaDeCadastroGERAL";
@@ -20,60 +20,52 @@ function DicasWrapper() {
 }
 
 function App() {
+  const navigate = useNavigate();
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50">s
       <Routes>
+        <Route path="/" element={<PaginaInicial />} />
         <Route path="/paginaInicial" element={<PaginaInicial />} />
         <Route path="/dicas" element={<DicasWrapper />} />
-        <Route path="/comofunciona" element={<ComoFunciona />} />
-        <Route 
-          path="/cadastro" 
-          element={
-            <TelaDeCadastroGERAL 
-              onVoltar={() => window.location.href = "/"} 
-            />
-          } 
-        />
-        <Route 
-          path="/login" 
-          element={
-            <TelaDeLogin 
-              onVoltar={() => window.location.href = "/"} 
-              onCadastrar={() => window.location.href = "/cadastro"}
-            />
-          } 
-        />
         <Route path="/servicos" element={<SecaoDeServicos />} />
-        <Route 
-          path="/tab" 
+        <Route path="/comofunciona" element={<ComoFunciona />} />
+
+        <Route
+          path="/cadastro"
+          element={<TelaDeCadastroGERAL onVoltar={() => navigate("/")} />}
+        />
+        <Route
+          path="/login"
           element={
-            <TabNavigation 
-              activeTab="services" 
-              setActiveTab={() => {}} 
-              selectedCategory="Todos" 
-              setSelectedCategory={() => {}} 
+            <TelaDeLogin
+              onVoltar={() => navigate("/")}
+              onCadastrar={() => navigate("/cadastro")}
             />
-          } 
+          }
+        />
+
+        <Route
+          path="/tab"
+          element={
+            <TabNavigation
+              activeTab="services"
+              setActiveTab={() => {}}
+              selectedCategory="Todos"
+              setSelectedCategory={() => {}}
+            />
+          }
         />
         <Route 
           path="/servicesgrid" 
-          element={
-            <ServicesGrid services={services} />
-          } 
+          element={<ServicesGrid services={services} />} 
         />
-        <Route path="/cabecalho" element={<Cabecalho />} />
-        <Route path="/finalDaPagina" element={<FinalDaPagina />} />
+        
+        <Route path="*" element={<PaginaInicial />} />
       </Routes>
+      <FinalDaPagina />
     </div>
   );
 }
 
-function AppWrapper() {
-  return (
-    <Router>
-      <App />
-    </Router>
-  );
-}
-
-export default AppWrapper;
+export default App;
