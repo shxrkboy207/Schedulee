@@ -102,9 +102,17 @@ const FinalDaPagina: React.FC = () => {
               <li>
                 <span className="hover:text-white transition-colors cursor-pointer">Contato</span>
               </li>
+
+              {/* ✔ Termos adicionados */}
               <li>
-                <span className="hover:text-white transition-colors cursor-pointer">Termos de Uso</span>
+                <button
+                  className="hover:text-white transition-colors"
+                  onClick={() => navigate("/termos")}
+                >
+                  Termos de Uso
+                </button>
               </li>
+
               <li>
                 <span className="hover:text-white transition-colors cursor-pointer">Privacidade</span>
               </li>

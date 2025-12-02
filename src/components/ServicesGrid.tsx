@@ -49,7 +49,7 @@ const ServicesGrid: React.FC = () => {
   if (posts.length === 0)
     return (
       <div className="text-center text-gray-600 mt-6">
-        <p className="text-lg">Nenhum Serviço Disponivel no momento...</p>
+        <p className="text-lg"></p>
       </div>
     );
 

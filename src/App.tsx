@@ -23,6 +23,7 @@ import CadastroMei from "./components/CadastroMei"; // ✔ JÁ EXISTE NO SEU PRO
 import TelaDePostagens from "./components/TelaDePostagens";
 import NovaPostagem from "./components/NovaPostagem";
 import EditarPostagem from "./components/EditarPostagem";
+import TermosDeUso from "./components/TermosDeUso";
 
 function DicasWrapper() {
   const location = useLocation();
@@ -95,6 +96,7 @@ function App() {
 
         {/* FALLBACK */}
         <Route path="*" element={<PaginaInicial />} />
+        <Route path="/termos" element={<TermosDeUso />} />
       </Routes>
 
       <FinalDaPagina />
